@@ -1,0 +1,72 @@
+return {
+	"hrsh7th/nvim-cmp",
+	dependencies = {
+		"hrsh7th/cmp-nvim-lsp", -- lsp source for nvim-cmp
+		"hrsh7th/cmp-buffer", -- text within the current buffer
+		"hrsh7th/cmp-path", -- file systems paths
+		"L3MON4D3/LuaSnip", -- snippet engine
+		"saadparwaiz1/cmp_luasnip", -- snippet expansion
+		"windwp/nvim-autopairs", -- ENHANCEMENT: Auto-insert brackets for function parameters
+	},
+	config = function()
+		local cmp = require("cmp")
+		local luasnip = require("luasnip")
+
+		cmp.setup({
+			snippet = {
+				expand = function(args)
+					luasnip.lsp_expand(args.body) -- for snippet support
+				end,
+			},
+
+			mapping = cmp.mapping.preset.insert({
+				["<C-b>"] = cmp.mapping.scroll_docs(-4),
+				["<C-f>"] = cmp.mapping.scroll_docs(4),
+				["<C-Space>"] = cmp.mapping.complete(), -- Trigger completion manually
+				["<CR>"] = cmp.mapping.confirm({ select = true }),
+
+				-- ENHANCEMENT: Supertab behavior (Select item OR jump forward through parameter hints)
+				["<Tab>"] = cmp.mapping(function(fallback)
+					if cmp.visible() then
+						cmp.select_next_item()
+					elseif luasnip.expand_or_jumpable() then
+						luasnip.expand_or_jump()
+					else
+						fallback()
+					end
+				end, { "i", "s" }),
+
+				-- ENHANCEMENT: Shift+Tab to jump backward through parameter hints
+				["<S-Tab>"] = cmp.mapping(function(fallback)
+					if cmp.visible() then
+						cmp.select_prev_item()
+					elseif luasnip.jumpable(-1) then
+						luasnip.jump(-1)
+					else
+						local status_ok, _ = pcall(
+							vim.api.nvim_feedkeys,
+							vim.api.nvim_replace_termcodes("<Plug>(TaboutBack)", true, true, true),
+							"m",
+							true
+						)
+						if not status_ok then
+							fallback()
+						end
+					end
+				end, { "i", "s" }),
+			}),
+
+			sources = cmp.config.sources({
+				{ name = "nvim_lsp" },
+				{ name = "luasnip" },
+			}, {
+				{ name = "buffer" },
+				{ name = "path" },
+			}),
+		})
+
+		-- ENHANCEMENT: Automatically add parentheses () when completing a function/method
+		local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+		cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+	end,
+}
