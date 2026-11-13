@@ -10,13 +10,18 @@ vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 vim.opt.autoindent = true
 vim.opt.smartindent = true
-vim.opt.wrap = false
+vim.opt.wrap = true
+
+vim.opt.formatoptions:append("tc")
+vim.opt.linebreak = true
+vim.opt.breakindent = true
+vim.opt.showbreak = "↪ "
 
 vim.opt.swapfile = false
 vim.opt.backup = false
 vim.opt.undofile = true
 
-vim.opt.incsearch = true     -- highlight while searching
+vim.opt.incsearch = true -- highlight while searching
 vim.opt.inccommand = "split" -- preview when substituting
 vim.opt.ignorecase = true
 vim.opt.smartcase = true

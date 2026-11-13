@@ -4,6 +4,11 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = ","
 
 -- keymaps
+vim.keymap.set("i", "<C-l>", "<C-g>U<Right>")
+vim.keymap.set("i", ",", ",<C-g>u")
+vim.keymap.set("i", ".", ".<C-g>u")
+vim.keymap.set("i", "!", "!<C-g>u")
+vim.keymap.set("i", "?", "?<C-g>u")
 
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "moves lines down in visual selection" })
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "moves lines up in visual selection" })
@@ -65,11 +70,11 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 -- tab stuff
-vim.keymap.set("n", "<leader>to", "<cmd>tabnew<CR>") --open new tab
-vim.keymap.set("n", "<leader>tx", "<cmd>tabclose<CR>") --close current tab
-vim.keymap.set("n", "<leader>tn", "<cmd>tabn<CR>") --go to next
-vim.keymap.set("n", "<leader>tp", "<cmd>tabp<CR>") --go to pre
-vim.keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>") --open current tab in new tab
+vim.keymap.set("n", "<A-t>o", vim.cmd.tabnew) --open new tab
+vim.keymap.set("n", "<A-t>x", vim.cmd.tabclose) --close current tab
+vim.keymap.set("n", "<A-t>n", vim.cmd.tabn) --go to next
+vim.keymap.set("n", "<A-t>p", vim.cmd.tabp) --go to pre
+vim.keymap.set("n", "<A-t>f", "<cmd>tabnew %<CR>") --open current tab in new tab
 
 --split management
 vim.keymap.set("n", "<leader>sv", "<C-w>v", { desc = "Split window vertically" })
@@ -101,9 +106,11 @@ vim.api.nvim_set_keymap("i", "<C-l>", "<C-o>", { noremap = true, silent = true }
 
 -- buffer management
 
-vim.keymap.set("n", "<S-l>", "<cmd>bnext<CR>", { desc = "next buffer" })
+vim.keymap.set("n", "<leader>bl", "<cmd>buffers<CR>", { desc = "buffers list" })
 
-vim.keymap.set("n", "<S-h>", "<cmd>bprev<CR>", { desc = "previous buffer" })
+vim.keymap.set("n", "<leader>bn", "<cmd>bnext<CR>", { desc = "next buffer" })
+
+vim.keymap.set("n", "<leader>bp", "<cmd>bprev<CR>", { desc = "previous buffer" })
 
 -- closing current buffer smoothly
 

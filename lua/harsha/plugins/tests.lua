@@ -5,7 +5,7 @@ return {
 		vim.g["test#strategy"] = "neovim"
 
 		-- Universal test keymaps
-		vim.keymap.set("n", "<Leader>tn", ":TestNearest<CR>", { silent = true })
+		vim.keymap.set("n", "<Leader>tc", ":TestNearest<CR>", { silent = true })
 		vim.keymap.set("n", "<Leader>tf", ":TestFile<CR>", { silent = true })
 		vim.keymap.set("n", "<Leader>ta", ":TestSuite<CR>", { silent = true })
 		vim.keymap.set("n", "<Leader>tl", ":TestLast<CR>", { silent = true })
